@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en" class="transition duration-300">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loveteria Coffee - Premium Coffee Experience</title>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            50: '#fdf8f6',
+                            100: '#f2e8e5',
+                            200: '#eaddd7',
+                            300: '#e0cec7',
+                            400: '#d2bab0',
+                            500: '#bfa094',
+                            600: '#a18072',
+                            700: '#977669',
+                            800: '#846358',
+                            900: '#43302b',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      h1, h2, h3 {
+        font-family: 'Playfair Display', serif;
+      }
+      .glass-effect {
+        backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .glass-dark {
+        backdrop-filter: blur(16px);
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .cart-item-animate {
+        animation: cartPulse 0.4s ease-in-out;
+      }
+      @keyframes cartPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+      .notification {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        z-index: 1000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease-in-out;
+      }
+      .notification.show {
+        transform: translateX(0);
+      }
+      .product-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .product-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #f59e0b, #f97316, #dc2626);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+        box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(245, 158, 11, 0.4);
+      }
+      .cart-sidebar {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+        backdrop-filter: blur(20px);
+      }
+      .dark .cart-sidebar {
+        background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.9));
+      }
+    </style>
+  </head>
+
+  <body class="bg-gradient-to-br from-coffee-50 to-orange-50 text-gray-800 dark:from-gray-900 dark:to-gray-800 dark:text-white transition-all duration-300">
+    
+    <!-- Notification -->
+    <div id="notification" class="notification bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-green-400">
+      <div class="flex items-center space-x-3">
+        <i class="fas fa-check-circle text-xl"></i>
+        <span id="notification-text">Item added to cart!</span>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="bg-gradient-to-r from-coffee-900 via-coffee-800 to-orange-900 text-white sticky top-0 z-50 shadow-2xl backdrop-blur-sm border-b border-orange-500/20">
+      <div class="container mx-auto flex items-center justify-between p-4">
+        <div class="flex items-center space-x-3">
+          <div class="relative">
+            <i class="fas fa-coffee text-3xl text-orange-300 animate-bounce-slow"></i>
+            <div class="absolute -top-1 -right-1 w-3 h-3 bg-orange-400 rounded-full animate-ping"></div>
+          </div>
+          <div>
+            <h1 class="text-3xl font-black gradient-text">Loveteria</h1>
+            <p class="text-xs text-orange-200 font-medium">Premium Coffee Experience</p>
+          </div>
+        </div>
+        
+        <nav class="hidden lg:flex items-center space-x-8">
+          <a href="#hero" class="relative px-4 py-2 rounded-full hover:text-orange-300 transition-all duration-300 hover:scale-105 group">
+            <span class="relative z-10">Home</span>
+            <div class="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+          <a href="#menu" class="relative px-4 py-2 rounded-full hover:text-orange-300 transition-all duration-300 hover:scale-105 group">
+            <span class="relative z-10">Menu</span>
+            <div class="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+          <a href="#about" class="relative px-4 py-2 rounded-full hover:text-orange-300 transition-all duration-300 hover:scale-105 group">
+            <span class="relative z-10">About</span>
+            <div class="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+          <a href="#contact" class="relative px-4 py-2 rounded-full hover:text-orange-300 transition-all duration-300 hover:scale-105 group">
+            <span class="relative z-10">Contact</span>
+            <div class="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <!-- Search -->
+          <div class="relative hidden md:block">
+            <input type="text" id="searchInput" placeholder="Search coffee..." class="bg-white/20 text-white placeholder-white/70 px-4 py-2 pl-10 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-300 focus:bg-white/30 transition-all backdrop-blur-sm">
+            <i class="fas fa-search absolute left-3 top-3 text-white/70"></i>
+          </div>
+
+          <!-- Cart -->
+          <div class="relative">
+            <button onclick="toggleCart()" class="relative p-3 rounded-full hover:bg-white/10 transition-all duration-300 group">
+              <i class="fas fa-shopping-cart text-xl group-hover:text-orange-300 transition-colors"></i>
+              <span id="cartCount" class="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-lg">0</span>
+            </button>
+          </div>
+
+          <!-- Dark Mode Toggle -->
+          <button onclick="toggleDarkMode()" class="p-3 rounded-full hover:bg-white/10 transition-all duration-300 group">
+            <i class="fas fa-moon text-xl group-hover:text-orange-300 transition-colors group-hover:rotate-12"></i>
+          </button>
+
+          <!-- Mobile Menu -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-full hover:bg-white/10 transition-all">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="hidden lg:hidden glass-effect px-4 pb-4">
+        <nav class="flex flex-col space-y-2">
+          <a href="#hero" class="py-3 px-4 rounded-lg hover:bg-white/20 transition-all">Home</a>
+          <a href="#menu" class="py-3 px-4 rounded-lg hover:bg-white/20 transition-all">Menu</a>
+          <a href="#about" class="py-3 px-4 rounded-lg hover:bg-white/20 transition-all">About</a>
+          <a href="#contact" class="py-3 px-4 rounded-lg hover:bg-white/20 transition-all">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 cart-sidebar shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto border-l border-white/20">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-shopping-cart text-2xl text-coffee-600 dark:text-orange-400"></i>
+            <h3 class="text-2xl font-bold">Shopping Cart</h3>
+          </div>
+          <button onclick="toggleCart()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+            <i class="fas fa-times text-xl text-gray-500 hover:text-gray-700"></i>
+          </button>
+        </div>
+        
+        <div id="cartItems" class="space-y-4 mb-6">
+          <!-- Cart items will be populated here -->
+        </div>
+        
+        <div class="border-t border-gray-200 dark:border-gray-600 pt-6">
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-xl font-bold">Total: </span>
+            <span id="cartTotal" class="text-xl font-bold text-coffee-600 dark:text-orange-400">₹0</span>
+          </div>
+          <div class="space-y-3">
+            <button onclick="proceedToWhatsAppCheckout()" class="w-full btn-primary text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2">
+              <i class="fab fa-whatsapp text-xl"></i>
+              <span>Order via WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen bg-gradient-to-br from-coffee-900 via-coffee-800 to-orange-900 flex items-center justify-center text-white relative overflow-hidden">
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute inset-0">
+        <div class="absolute top-20 left-20 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl animate-float delay-1000"></div>
+        <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-pink-400/10 rounded-full blur-3xl animate-pulse-slow"></div>
+      </div>
+      
+      <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+        <div class="mb-8">
+          <h2 class="text-6xl md:text-8xl mb-6 font-black gradient-text animate-pulse-slow">
+            Brewing Love
+          </h2>
+          <p class="text-2xl md:text-3xl font-light text-orange-200 mb-4">One Cup at a Time</p>
+        </div>
+        <p class="text-xl md:text-2xl mb-10 text-gray-200 leading-relaxed max-w-3xl mx-auto">
+          Discover the aroma of happiness at Loveteria. Premium coffee beans, expertly crafted for the perfect experience that awakens your senses.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+          <a href="#menu" class="btn-primary text-white px-10 py-5 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-3">
+            <i class="fas fa-coffee text-xl"></i>
+            <span>Order Now</span>
+          </a>
+          <a href="#about" class="glass-effect text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-3">
+            <i class="fas fa-play text-xl"></i>
+            <span>Our Story</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 px-4">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4 gradient-text">Why Choose Loveteria?</h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300">Experience the difference in every sip</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <div class="text-center group hover:scale-105 transition-all duration-300">
+            <div class="bg-gradient-to-br from-orange-400 to-orange-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform shadow-xl">
+              <i class="fas fa-shipping-fast text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Lightning Fast Delivery</h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Get your coffee delivered hot and fresh within 20-30 minutes. We value your time as much as our coffee.</p>
+          </div>
+          <div class="text-center group hover:scale-105 transition-all duration-300">
+            <div class="bg-gradient-to-br from-green-400 to-green-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform shadow-xl">
+              <i class="fas fa-leaf text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">100% Organic Beans</h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Ethically sourced, premium organic coffee beans from the world's finest farms. Taste the purity in every cup.</p>
+          </div>
+          <div class="text-center group hover:scale-105 transition-all duration-300">
+            <div class="bg-gradient-to-br from-purple-400 to-purple-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform shadow-xl">
+              <i class="fas fa-award text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Award Winning</h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Recognized as the best coffee shop in the city for 3 consecutive years. Excellence in every cup we serve.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 px-4 bg-gradient-to-br from-coffee-50 to-orange-50 dark:from-gray-800 dark:to-gray-900">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-6xl font-black mb-6 gradient-text">Our Premium Menu</h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">Expertly crafted beverages using the finest ingredients and time-honored techniques that create moments of pure bliss</p>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="flex justify-center mb-16">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-3 shadow-2xl border border-gray-200 dark:border-gray-700">
+            <button onclick="filterProducts('all')" class="filter-btn active px-8 py-3 rounded-xl font-bold transition-all duration-300">All</button>
+            <button onclick="filterProducts('hot')" class="filter-btn px-8 py-3 rounded-xl font-bold transition-all duration-300">Hot Coffee</button>
+            <button onclick="filterProducts('cold')" class="filter-btn px-8 py-3 rounded-xl font-bold transition-all duration-300">Cold Drinks</button>
+            <button onclick="filterProducts('specialty')" class="filter-btn px-8 py-3 rounded-xl font-bold transition-all duration-300">Specialty</button>
+          </div>
+        </div>
+
+        <div id="menuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+          <!-- Menu items will be populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4">
+      <div class="container mx-auto">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 class="text-5xl font-bold mb-8 gradient-text">Our Story</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              Founded in 2018, Loveteria began as a small dream to bring the world's finest coffee experiences to our community. 
+              What started as a passion project has grown into a beloved local institution, known for our commitment to quality, 
+              sustainability, and the perfect cup of coffee.
+            </p>
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              We source our beans directly from farmers, ensuring fair trade practices while delivering exceptional flavor profiles 
+              that celebrate the unique characteristics of each region.
+            </p>
+            <div class="grid grid-cols-2 gap-8">
+              <div class="text-center bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                <div class="text-4xl font-black gradient-text mb-2">50K+</div>
+                <div class="text-gray-600 dark:text-gray-300 font-semibold">Happy Customers</div>
+              </div>
+              <div class="text-center bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                <div class="text-4xl font-black gradient-text mb-2">15</div>
+                <div class="text-gray-600 dark:text-gray-300 font-semibold">Coffee Varieties</div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="bg-gradient-to-br from-coffee-200 to-orange-200 rounded-3xl p-8 transform hover:scale-105 transition-all duration-300">
+              <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80" 
+                   alt="Coffee roasting process" class="rounded-2xl shadow-2xl w-full">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 px-4 bg-gradient-to-br from-orange-50 to-coffee-50 dark:from-gray-800 dark:to-gray-900">
+      <div class="container mx-auto">
+        <h2 class="text-5xl font-bold text-center mb-16 gradient-text">What Our Customers Say</h2>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-4 border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center mb-6">
+              <div class="flex text-yellow-400 text-xl">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg italic">
+              "The best coffee experience I've ever had! The quality is exceptional and the delivery is always on time. 
+              Loveteria has become my daily ritual."
+            </p>
+            <div class="flex items-center">
+              <img src="data:image/jpeg;base64,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" 
+                   alt="Customer" class="w-14 h-14 rounded-full mr-4 border-2 border-orange-300">
+              <div>
+                <div class="font-bold text-lg">Riya Jha</div>
+                <div class="text-sm text-gray-500">Regular Customer</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-4 border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center mb-6">
+              <div class="flex text-yellow-400 text-xl">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg italic">
+              "Amazing atmosphere and even better coffee! I've tried every item on their menu and never been disappointed. 
+              The staff is incredibly knowledgeable."
+            </p>
+            <div class="flex items-center">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" 
+                   alt="Customer" class="w-14 h-14 rounded-full mr-4 border-2 border-orange-300">
+              <div>
+                <div class="font-bold text-lg">Priyanshu Paul</div>
+                <div class="text-sm text-gray-500">Coffee Enthusiast</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-4 border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center mb-6">
+              <div class="flex text-yellow-400 text-xl">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg italic">
+              "Perfect for remote work! Great WiFi, comfortable seating, and the coffee keeps me energized all day. 
+              Highly recommend their specialty blends."
+            </p>
+            <div class="flex items-center">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80" 
+                   alt="Customer" class="w-14 h-14 rounded-full mr-4 border-2 border-orange-300">
+              <div>
+                <div class="font-bold text-lg">Jiya Jha</div>
+                <div class="text-sm text-gray-500">Freelancer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-5xl font-bold mb-6 gradient-text">Get in Touch</h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300">We'd love to hear from you. Send us a message!</p>
+        </div>
+        
+        <div class="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
+          <div>
+            <div class="space-y-8">
+              <div class="flex items-start space-x-6 group">
+                <div class="bg-gradient-to-br from-coffee-500 to-orange-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
+                  <i class="fas fa-map-marker-alt text-white text-2xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-xl mb-3">Visit Our Cafe</h3>
+                  <p class="text-gray-600 dark:text-gray-300 leading-relaxed">12 Main Street, Bhopal, Madhya Pradesh<br>Open daily: 7:00 AM - 10:00 PM</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-6 group">
+                <div class="bg-gradient-to-br from-green-500 to-emerald-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
+                  <i class="fas fa-phone text-white text-2xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-xl mb-3">Call Us</h3>
+                  <p class="text-gray-600 dark:text-gray-300 leading-relaxed">+91 8102198960<br>Available 24/7 for orders</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-6 group">
+                <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
+                  <i class="fas fa-envelope text-white text-2xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-xl mb-3">Email Us</h3>
+                  <p class="text-gray-600 dark:text-gray-300 leading-relaxed">hello@loveteria.com<br>We'll respond within 24 hours</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700">
+            <form onsubmit="sendWhatsAppMessage(event)" class="space-y-6">
+              <div>
+                <label for="name" class="block text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">Name</label>
+                <input type="text" id="name" name="name" required 
+                       class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition-all">
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required 
+                       class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition-all">
+              </div>
+              <div>
+                <label for="address" class="block text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">Address</label>
+                <textarea id="address" name="address" rows="3" required 
+                          class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition-all"
+                          placeholder="Enter your complete address for delivery"></textarea>
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">Message (Optional)</label>
+                <textarea id="message" name="message" rows="4" 
+                          class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition-all"
+                          placeholder="Any special requests or questions?"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+                <i class="fab fa-whatsapp text-xl"></i>
+                <span>Send Message via WhatsApp</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-coffee-900 via-gray-900 to-coffee-900 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-8 mb-12">
+          <div>
+            <div class="flex items-center space-x-3 mb-6">
+              <i class="fas fa-coffee text-3xl text-orange-400"></i>
+              <h3 class="text-3xl font-black gradient-text">Loveteria</h3>
+            </div>
+            <p class="text-gray-300 mb-6 leading-relaxed">Brewing love, one cup at a time. Premium coffee experience delivered to your doorstep with passion and perfection.</p>
+            <div class="flex space-x-4">
+              <a href="#" class="bg-white/10 p-3 rounded-full hover:bg-orange-500 transition-all duration-300 group">
+                <i class="fab fa-facebook text-xl group-hover:scale-110 transition-transform"></i>
+              </a>
+              <a href="#" class="bg-white/10 p-3 rounded-full hover:bg-orange-500 transition-all duration-300 group">
+                <i class="fab fa-instagram text-xl group-hover:scale-110 transition-transform"></i>
+              </a>
+              <a href="#" class="bg-white/10 p-3 rounded-full hover:bg-orange-500 transition-all duration-300 group">
+                <i class="fab fa-twitter text-xl group-hover:scale-110 transition-transform"></i>
+              </a>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-xl mb-6">Quick Links</h4>
+            <ul class="space-y-3">
+              <li><a href="#menu" class="text-gray-300 hover:text-orange-400 transition-colors flex items-center space-x-2"><i class="fas fa-coffee text-sm"></i><span>Menu</span></a></li>
+              <li><a href="#about" class="text-gray-300 hover:text-orange-400 transition-colors flex items-center space-x-2"><i class="fas fa-heart text-sm"></i><span>About Us</span></a></li>
+              <li><a href="#contact" class="text-gray-300 hover:text-orange-400 transition-colors flex items-center space-x-2"><i class="fas fa-phone text-sm"></i><span>Contact</span></a></li>
+              <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors flex items-center space-x-2"><i class="fas fa-briefcase text-sm"></i><span>Careers</span></a></li>
+            </ul>
+          </div>
+          
+          
+          <div>
+            <h4 class="font-bold text-xl mb-6 ">Contact Info</h4>
+            <div class="space-y-4 text-gray-300">
+              <p class="flex items-center space-x-3"><i class="fas fa-phone text-orange-400"></i><span>+91 8102198960</span></p>
+              <p class="flex items-center space-x-3"><i class="fas fa-envelope text-orange-400"></i><span>hello@loveteria.com</span></p>
+              <p class="flex items-center space-x-3"><i class="fas fa-map-marker-alt text-orange-400"></i><span>12 Main Street, Bhopal</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="border-t border-gray-700 pt-8 text-center">
+          <p class="text-gray-300">&copy; 2024 Loveteria Coffee. All rights reserved. Designed with ❤️ by Aprajita</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // Product data
+      const products = [
+        {
+          id: 1,
+          name: "Espresso",
+          category: "hot",
+          price: 120,
+          description: "Pure Coffee, No Milk",
+          quote: "Strong, bold, and unapologetically real—just like true love.",
+          image: "https://images.unsplash.com/photo-1610889556528-9a770e32642f?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          rating: 4.8,
+          ingredients: ["Premium Arabica Beans", "Hot Water"],
+          calories: 5
+        },
+        {
+          id: 2,
+          name: "Americano",
+          category: "hot",
+          price: 130,
+          description: "Espresso + Hot Water",
+          quote: "Diluted, not diminished—love that lasts, sip after sip.",
+          image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=400&q=80",
+          rating: 4.6,
+          ingredients: ["Espresso", "Hot Water"],
+          calories: 10
+        },
+        {
+          id: 3,
+          name: "Latte",
+          category: "hot",
+          price: 160,
+          description: "Espresso + Steamed Milk + Light Foam",
+          quote: "A gentle embrace of strength and softness—love in every layer.",
+          image: "https://images.unsplash.com/photo-1561882468-9110e03e0f78?auto=format&fit=crop&w=400&q=80",
+          rating: 4.9,
+          ingredients: ["Espresso", "Steamed Milk", "Milk Foam"],
+          calories: 150
+        },
+        {
+          id: 4,
+          name: "Cappuccino",
+          category: "hot",
+          price: 150,
+          description: "Espresso + Steamed Milk + Thick Foam",
+          quote: "Perfectly balanced, beautifully bold—like a well-loved heart.",
+          image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80",
+          rating: 4.7,
+          ingredients: ["Espresso", "Steamed Milk", "Thick Foam"],
+          calories: 120
+        },
+        {
+          id: 5,
+          name: "Mocha",
+          category: "specialty",
+          price: 180,
+          description: "Espresso + Steamed Milk + Chocolate",
+          quote: "When love meets chocolate and coffee—sweet, warm, and irresistible.",
+          image: "https://media.istockphoto.com/id/1371303553/photo/coffee-and-chocolate-cocktail-with-whipped-cream.jpg?s=612x612&w=0&k=20&c=O3ZIVpWd6ADADg0ELcjkqD1qkWPJsvKE4AU_yoLdm5Y=",
+          rating: 4.8,
+          ingredients: ["Espresso", "Steamed Milk", "Chocolate Syrup", "Whipped Cream"],
+          calories: 250
+        },
+        {
+          id: 6,
+          name: "Flat White",
+          category: "hot",
+          price: 170,
+          description: "Espresso + Microfoam",
+          quote: "No layers, just smooth devotion—intimacy in every sip.",
+          image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=400&q=80",
+          rating: 4.6,
+          ingredients: ["Double Espresso", "Microfoam Milk"],
+          calories: 130
+        },
+        {
+          id: 7,
+          name: "Cold Brew",
+          category: "cold",
+          price: 140,
+          description: "Slow-steeped Coffee + Cold Water",
+          quote: "Love that takes its time—deep, cool, and worth the wait.",
+          image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=400&q=80",
+          rating: 4.5,
+          ingredients: ["Cold Brew Coffee", "Ice", "Optional Milk"],
+          calories: 15
+        },
+        {
+          id: 8,
+          name: "Iced Latte",
+          category: "cold",
+          price: 170,
+          description: "Espresso + Cold Milk + Ice",
+          quote: "Cool refreshment with bold coffee flavor.",
+          image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80",
+          rating: 4.7,
+          ingredients: ["Espresso", "Cold Milk", "Ice"],
+          calories: 140
+        },
+        {
+          id: 9,
+          name: "Frappuccino",
+          category: "cold",
+          price: 200,
+          description: "Blended Coffee + Ice + Whipped Cream",
+          quote: "A delightful frozen treat for coffee lovers.",
+          image: "https://addapinch.com/wp-content/uploads/2012/10/Homemade-Frappuccino-DSC_0560-2-500x500.jpg",
+          rating: 4.6,
+          ingredients: ["Coffee", "Ice", "Milk", "Whipped Cream", "Flavoring"],
+          calories: 300
+        },
+        {
+          id: 10,
+          name: "Caramel Macchiato",
+          category: "specialty",
+          price: 190,
+          description: "Espresso + Steamed Milk + Caramel",
+          quote: "Sweet sophistication in every sip.",
+          image: "https://athome.starbucks.com/sites/default/files/styles/recipe_banner_large/public/2024-05/CaramelMacchiato_RecipeHeader_848x539_%402x.jpg.webp?itok=Hb84eWi5",
+          rating: 4.8,
+          ingredients: ["Espresso", "Steamed Milk", "Caramel Syrup", "Caramel Drizzle"],
+          calories: 240
+        },
+        {
+          id: 11,
+          name: "Affogato",
+          category: "specialty",
+          price: 160,
+          description: "Espresso + Vanilla Ice Cream",
+          quote: "Where hot meets cold in perfect harmony.",
+          image: "https://www.recipetineats.com/tachyon/2023/06/Affogato_0.jpg",
+          rating: 4.9,
+          ingredients: ["Hot Espresso", "Vanilla Ice Cream"],
+          calories: 180
+        },
+        {
+          id: 12,
+          name: "Turkish Coffee",
+          category: "specialty",
+          price: 140,
+          description: "Traditional Finely Ground Coffee",
+          quote: "Ancient brewing method for the modern palate.",
+          image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400&q=80",
+          rating: 4.4,
+          ingredients: ["Turkish Ground Coffee", "Sugar (Optional)", "Cardamom"],
+          calories: 20
+        }
+      ];
+
+      // Global variables
+      let cart = [];
+      let currentFilter = 'all';
+
+      // Initialize the website
+      document.addEventListener('DOMContentLoaded', function() {
+        showLoading();
+        
+        // Simulate loading delay for better UX
+        setTimeout(() => {
+          renderProducts();
+          updateCartUI();
+          
+          // Initialize search
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput) {
+            searchInput.addEventListener('input', handleSearch);
+          }
+          
+          // Initialize dark mode preference (removed localStorage dependency)
+          
+          // Smooth scrolling for navigation links
+          document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+              e.preventDefault();
+              const target = document.querySelector(this.getAttribute('href'));
+              if (target) {
+                target.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }
+            });
+          });
+        }, 1000);
+      });
+
+      // Show loading state
+      function showLoading() {
+        const menuGrid = document.getElementById('menuGrid');
+        menuGrid.innerHTML = `
+          <div class="col-span-full text-center py-20">
+            <div class="relative">
+              <div class="animate-spin rounded-full h-20 w-20 border-4 border-coffee-200 border-t-coffee-600 mx-auto mb-6"></div>
+              <i class="fas fa-coffee absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-coffee-600 text-2xl animate-pulse"></i>
+            </div>
+            <h3 class="text-2xl font-bold gradient-text mb-2">Brewing Your Experience</h3>
+            <p class="text-gray-500 dark:text-gray-400">Loading delicious coffee options...</p>
+          </div>
+        `;
+      }
+
+      // Create enhanced product card
+      function createProductCard(product) {
+        return `
+          <div class="product-card bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden hover:shadow-3xl transition-all duration-500 transform group border border-gray-100 dark:border-gray-700">
+            <div class="relative overflow-hidden">
+              <img src="${product.image}" alt="${product.name}" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <!-- Rating Badge -->
+              <div class="absolute top-4 left-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg backdrop-blur-sm">
+                <i class="fas fa-star mr-1"></i>${product.rating}
+              </div>
+              
+              <!-- Quick Info Overlay -->
+              <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                <div class="bg-white/95 dark:bg-gray-800/95 rounded-2xl p-4 backdrop-blur-sm">
+                  <div class="flex items-center justify-between text-sm">
+                    <span class="flex items-center text-orange-600 dark:text-orange-400 font-semibold">
+                      <i class="fas fa-fire mr-1"></i>${product.calories} cal
+                    </span>
+                    <span class="flex items-center text-green-600 dark:text-green-400 font-semibold">
+                      <i class="fas fa-clock mr-1"></i>2-5 min
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-8">
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white group-hover:text-coffee-600 dark:group-hover:text-orange-400 transition-colors">${product.name}</h3>
+                <span class="text-2xl font-black gradient-text">₹${product.price}</span>
+              </div>
+              
+              <p class="text-gray-600 dark:text-gray-300 mb-3 font-medium">${product.description}</p>
+              <p class="text-gray-500 dark:text-gray-400 italic mb-6 text-sm leading-relaxed min-h-[2.5rem]">"${product.quote}"</p>
+              
+              <div class="mb-6">
+                <div class="text-xs text-gray-400 mb-3">
+                  <strong class="text-coffee-600 dark:text-orange-400">Ingredients:</strong> 
+                  <span>${product.ingredients.slice(0, 2).join(', ')}${product.ingredients.length > 2 ? '...' : ''}</span>
+                </div>
+              </div>
+              
+              <!-- Quantity and Add to Cart -->
+              <div class="flex items-center space-x-4">
+                <div class="flex items-center border-2 border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden">
+                  <button onclick="decreaseQuantity(${product.id})" class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-coffee-600 dark:text-orange-400 font-bold">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span id="qty-${product.id}" class="px-4 py-3 font-bold text-lg bg-gray-50 dark:bg-gray-700 min-w-[60px] text-center">1</span>
+                  <button onclick="increaseQuantity(${product.id})" class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-coffee-600 dark:text-orange-400 font-bold">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                
+                <button onclick="addToCart(${product.id})" class="flex-1 btn-primary text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+                  <i class="fas fa-cart-plus"></i>
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Render products based on current filter
+      function renderProducts() {
+        const menuGrid = document.getElementById('menuGrid');
+        const filteredProducts = currentFilter === 'all' 
+          ? products 
+          : products.filter(product => product.category === currentFilter);
+
+        menuGrid.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
+      }
+
+      // Filter products
+      function filterProducts(category) {
+        currentFilter = category;
+        renderProducts();
+        
+        // Update filter buttons with enhanced styling
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.remove('active', 'bg-gradient-to-r', 'from-coffee-600', 'to-orange-600', 'text-white', 'shadow-lg', 'transform', 'scale-105');
+          btn.classList.add('text-gray-600', 'dark:text-gray-300', 'hover:text-coffee-600', 'dark:hover:text-orange-400');
+        });
+        
+        event.target.classList.add('active', 'bg-gradient-to-r', 'from-coffee-600', 'to-orange-600', 'text-white', 'shadow-lg', 'transform', 'scale-105');
+        event.target.classList.remove('text-gray-600', 'dark:text-gray-300', 'hover:text-coffee-600', 'dark:hover:text-orange-400');
+      }
+
+      // Enhanced search functionality
+      let searchTimeout;
+      function handleSearch(event) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          const searchTerm = event.target.value.toLowerCase();
+          const menuGrid = document.getElementById('menuGrid');
+          
+          if (searchTerm === '') {
+            renderProducts();
+            return;
+          }
+          
+          const filteredProducts = products.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm) ||
+            product.quote.toLowerCase().includes(searchTerm) ||
+            product.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchTerm))
+          );
+
+          if (filteredProducts.length === 0) {
+            menuGrid.innerHTML = `
+              <div class="col-span-full text-center py-20">
+                <div class="mb-8">
+                  <i class="fas fa-search text-8xl text-gray-300 dark:text-gray-600 mb-6"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-500 dark:text-gray-400 mb-4">No coffee found</h3>
+                <p class="text-gray-400 dark:text-gray-500 text-lg mb-6">Try searching with different keywords</p>
+                <button onclick="document.getElementById('searchInput').value = ''; renderProducts();" class="btn-primary text-white px-8 py-3 rounded-xl font-semibold">
+                  <i class="fas fa-redo mr-2"></i>View All Coffee
+                </button>
+              </div>
+            `;
+          } else {
+            menuGrid.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
+          }
+        }, 300);
+      }
+
+      // Quantity controls
+      function increaseQuantity(productId) {
+        const qtyElement = document.getElementById(`qty-${productId}`);
+        const currentQty = parseInt(qtyElement.textContent);
+        qtyElement.textContent = currentQty + 1;
+        
+        // Add animation
+        qtyElement.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          qtyElement.style.transform = 'scale(1)';
+        }, 200);
+      }
+
+      function decreaseQuantity(productId) {
+        const qtyElement = document.getElementById(`qty-${productId}`);
+        const currentQty = parseInt(qtyElement.textContent);
+        if (currentQty > 1) {
+          qtyElement.textContent = currentQty - 1;
+          
+          // Add animation
+          qtyElement.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            qtyElement.style.transform = 'scale(1)';
+          }, 200);
+        }
+      }
+
+      // Enhanced cart functionality
+      function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        const qtyElement = document.getElementById(`qty-${productId}`);
+        const quantity = parseInt(qtyElement.textContent);
+        
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          cart.push({
+            ...product,
+            quantity: quantity
+          });
+        }
+        
+        // Reset quantity to 1
+        qtyElement.textContent = '1';
+        
+        updateCartUI();
+        showNotification(`${product.name} added to cart!`, 'success');
+        
+        // Add enhanced animation to cart button
+        const cartButton = document.querySelector('[onclick="toggleCart()"]');
+        cartButton.classList.add('cart-item-animate');
+        setTimeout(() => {
+          cartButton.classList.remove('cart-item-animate');
+        }, 400);
+      }
+
+      function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        updateCartUI();
+        showNotification('Item removed from cart', 'success');
+      }
+
+      function updateCartQuantity(productId, newQuantity) {
+        if (newQuantity <= 0) {
+          removeFromCart(productId);
+          return;
+        }
+        
+        const item = cart.find(item => item.id === productId);
+        if (item) {
+          item.quantity = newQuantity;
+          updateCartUI();
+        }
+      }
+
+      // Enhanced cart UI
+      function updateCartUI() {
+        const cartCount = document.getElementById('cartCount');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        cartCount.textContent = totalItems;
+        cartTotal.textContent = `₹${totalPrice}`;
+        
+        if (cart.length === 0) {
+          cartItems.innerHTML = `
+            <div class="text-center py-12">
+              <div class="mb-6">
+                <i class="fas fa-shopping-cart text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-500 dark:text-gray-400 mb-2">Your cart is empty</h3>
+              <p class="text-gray-400 dark:text-gray-500 mb-6">Add some delicious coffee to get started!</p>
+              <button onclick="toggleCart(); document.getElementById('menu').scrollIntoView({behavior: 'smooth'})" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">
+                <i class="fas fa-coffee mr-2"></i>Browse Menu
+              </button>
+            </div>
+          `;
+        } else {
+          cartItems.innerHTML = cart.map(item => `
+            <div class="flex items-center space-x-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 p-4 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600 hover:shadow-xl transition-all duration-300">
+              <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl shadow-md">
+              <div class="flex-1">
+                <h4 class="font-bold text-lg text-gray-800 dark:text-white">${item.name}</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">₹${item.price} each</p>
+                <p class="text-sm font-semibold text-coffee-600 dark:text-orange-400">₹${item.price * item.quantity} total</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" class="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                  <i class="fas fa-minus text-xs text-coffee-600 dark:text-orange-400"></i>
+                </button>
+                <span class="font-bold text-lg min-w-[30px] text-center">${item.quantity}</span>
+                <button onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})" class="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                  <i class="fas fa-plus text-xs text-coffee-600 dark:text-orange-400"></i>
+                </button>
+              </div>
+              <button onclick="removeFromCart(${item.id})" class="p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/20 transition-all group">
+                <i class="fas fa-trash text-sm text-red-500 group-hover:scale-110 transition-transform"></i>
+              </button>
+            </div>
+          `).join('');
+        }
+      }
+
+      // Cart sidebar toggle
+      function toggleCart() {
+        const cartSidebar = document.getElementById('cartSidebar');
+        cartSidebar.classList.toggle('translate-x-full');
+      }
+
+      // WhatsApp checkout functionality
+      function proceedToWhatsAppCheckout() {
+        if (cart.length === 0) {
+          showNotification('Your cart is empty!', 'error');
+          return;
+        }
+        
+        const orderDetails = generateWhatsAppOrderMessage();
+        const phoneNumber = "918102198960"; // WhatsApp number
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(orderDetails)}`;
+        
+        window.open(whatsappURL, '_blank');
+        
+        // Clear cart after order
+        cart = [];
+        updateCartUI();
+        toggleCart();
+        showNotification('Redirecting to WhatsApp...', 'success');
+      }
+
+      function generateWhatsAppOrderMessage() {
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const deliveryFee = 30;
+        const tax = Math.round(totalPrice * 0.08);
+        const finalTotal = totalPrice + deliveryFee + tax;
+        
+        let message = `☕ *NEW ORDER FROM LOVETERIA WEBSITE*\n\n`;
+        message += `📋 *ORDER DETAILS:*\n`;
+        message += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+        
+        cart.forEach((item, index) => {
+          message += `${index + 1}. *${item.name}*\n`;
+          message += `   💰 ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
+          message += `   📝 ${item.description}\n\n`;
+        });
+        
+        message += `━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        message += `💰 *PAYMENT SUMMARY:*\n`;
+        message += `   Subtotal: ₹${totalPrice}\n`;
+        message += `   Delivery Fee: ₹${deliveryFee}\n`;
+        message += `   Tax (8%): ₹${tax}\n`;
+        message += `   *TOTAL: ₹${finalTotal}*\n\n`;
+        
+        message += `📞 *Please confirm this order and I'll provide my delivery address.*\n\n`;
+        message += `☕ Let the coffee brew the love`;
+        
+        return message;
+      }
+
+      // Contact form WhatsApp integration
+      function sendWhatsAppMessage(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        const message = document.getElementById('message').value;
+        
+        let whatsappMessage = `👋 *Hello from Loveteria Website!*\n\n`;
+        whatsappMessage += `📝 *CONTACT DETAILS:*\n`;
+        whatsappMessage += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+        whatsappMessage += `👤 *Name:* ${name}\n`;
+        whatsappMessage += `📞 *Phone:* ${phone}\n`;
+        whatsappMessage += `📍 *Address:*\n${address}\n\n`;
+        
+        if (message.trim()) {
+          whatsappMessage += `💬 *Message:*\n${message}\n\n`;
+        }
+        
+        whatsappMessage += `━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        whatsappMessage += `☕ Looking forward to sip love from Loveteria!`;
+        
+        const phoneNumber = "918102198960";
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        
+        window.open(whatsappURL, '_blank');
+        showNotification('Redirecting to WhatsApp...', 'success');
+        
+        // Clear form with animation
+        const form = event.target;
+        form.style.opacity = '0.5';
+        setTimeout(() => {
+          document.getElementById('name').value = '';
+          document.getElementById('phone').value = '';
+          document.getElementById('address').value = '';
+          document.getElementById('message').value = '';
+          form.style.opacity = '1';
+        }, 300);
+      }
+
+      // Enhanced utility functions
+      function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notification-text');
+        
+        notificationText.textContent = message;
+        
+        // Enhanced notification styling
+        if (type === 'success') {
+          notification.className = 'notification bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-green-400';
+          notification.innerHTML = `
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-check-circle text-xl"></i>
+              <span>${message}</span>
+            </div>
+          `;
+        } else {
+          notification.className = 'notification bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-red-400';
+          notification.innerHTML = `
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-exclamation-circle text-xl"></i>
+              <span>${message}</span>
+            </div>
+          `;
+        }
+        
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 4000);
+      }
+
+      function toggleDarkMode() {
+        const html = document.documentElement;
+        html.classList.toggle('dark');
+        
+        // Update moon/sun icon with animation
+        const darkModeBtn = document.querySelector('[onclick="toggleDarkMode()"] i');
+        if (html.classList.contains('dark')) {
+          darkModeBtn.className = 'fas fa-sun text-xl group-hover:text-orange-300 transition-colors group-hover:rotate-12';
+        } else {
+          darkModeBtn.className = 'fas fa-moon text-xl group-hover:text-orange-300 transition-colors group-hover:rotate-12';
+        }
+        
+        showNotification(`${html.classList.contains('dark') ? 'Dark' : 'Light'} mode activated`, 'success');
+      }
+
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('hidden');
+      }
+    </script>
+  </body>
+</html>
